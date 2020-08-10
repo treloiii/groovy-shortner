@@ -1,0 +1,25 @@
+version: '3'
+services:
+  db:
+    image: mysql:8.0.20
+    container_name: mysql
+    ports:
+     - 5432:5432
+    volumes:
+     - ./mysql_data:/var/lib/mysql
+    environment:
+     MYSQL_DATABASE: link_shortner
+     MYSQL_ROOT_PASSWORD: root
+    restart: always
+  shortner:
+    image: trelloiii/shortner
+    container_name: shortner
+    ports:
+     - 8080:8080
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSSORD: root
+      MYSQL_HOST: db
+    restart: always
+    links:
+      - db
